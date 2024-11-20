@@ -1,8 +1,9 @@
 FROM node:20-slim AS build
 WORKDIR /helloworld-docker-nodejs-client
+# Так быстрее, вместо сборки может взять из кэша
 COPY package*.json ./
 RUN npm i
-# Так быстрее, вместо сборки может взять из кэша
+# Файлы меняются чаще, чем package
 COPY . .
 RUN npm run build
 

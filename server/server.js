@@ -9,10 +9,10 @@ app.use(express.json());
 
 const pool = new Pool({
     user: process.env.POSTGRES_USER,
-    host: process.env.POSTGRES_HOST,
+    host: process.env.POSTGRES_HOST || 'postgres',
     database: process.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
-    port: process.env.POSTGRES_PORT,
+    port: process.env.POSTGRES_PORT || 5432,
 });
 
 app.get('/counter', async (req, res) => {
@@ -27,7 +27,11 @@ app.get('/counter', async (req, res) => {
 
 app.post('/counter/increment', async (req, res) => {
     try {
-        const result = await pool.query('UPDATE counter SET value = value + 1 RETURNING value');
+        const result = await pool.query(`
+            UPDATE counter 
+            SET value = value + 1 
+            RETURNING value
+        `);
         res.json(result.rows[0]);
     } catch (error) {
         console.error(error);
@@ -37,6 +41,20 @@ app.post('/counter/increment', async (req, res) => {
 
 const serverPort = process.env.SERVER_PORT;
 app.listen(serverPort, async () => {
+    isConnected = false;
+    timeSeconds = 5;
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    while(!isConnected) {
+        try {
+            await pool.connect();
+            isConnected = true;
+            console.log('Успешное подключение к БД.');
+        } catch (error) {
+            console.error(`Не удаётся подключится к БД. Повторное подключение через ${timeSeconds} секунд.`);
+            await delay(timeSeconds*1000);
+        }
+    }
+
     try {
         // Выполняем SQL-запрос для создания таблицы, если она не существует
         await pool.query(`
@@ -44,9 +62,14 @@ app.listen(serverPort, async () => {
                 value INTEGER NOT NULL DEFAULT 0
             );
         `);
-        console.log('База данных успешно инициализирована.');
+        await pool.query(`
+            INSERT INTO counter (value)
+            SELECT 0
+            WHERE NOT EXISTS (SELECT 1 FROM counter)
+        `)
+        console.log('БД успешно инициализирована.');
     } catch (error) {
-        console.error('Ошибка при инициализации базы данных:', error);
+        console.error('Ошибка при инициализации БД.\n', error);
     }
     console.log(`Сервер запущен на http://localhost:${serverPort}`);
 });

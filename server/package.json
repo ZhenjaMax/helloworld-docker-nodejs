@@ -4,6 +4,7 @@
   "private": true,
   "author": "ZhenjaMax",
   "license": "UNLICENSED",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
