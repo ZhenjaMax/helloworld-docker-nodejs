@@ -22,7 +22,7 @@ metadata:
   namespace: 0303-maksimov-evgenii
 type: Opaque
 data:
-  POSTGRES_PASSWORD: MTIzNDU2
+  POSTGRES_PASSWORD: MTIzNDU2  # Зашифрованный пароль 123456 (Base64)
 ---
 # Service Client
 apiVersion: v1
@@ -52,7 +52,7 @@ spec:
     - name: client
       image: 2513009079942350/helloworld-docker-nodejs-client:latest
       ports:
-        - containerPort: 3000
+        - containerPort: 80
           protocol: TCP
       resources:
         requests:
