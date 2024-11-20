@@ -8,6 +8,7 @@ services:
     environment:
       - REACT_APP_SERVER_API_URL=${SERVER_API_URL}
       - REACT_APP_SERVER_API_PORT=${SERVER_PORT}
+    image: 2513009079942350/helloworld-docker-nodejs-client:latest
 
   server:
     build:
@@ -23,6 +24,7 @@ services:
       - SERVER_PORT=${SERVER_PORT}
     depends_on:
       - postgres
+    image: 2513009079942350/helloworld-docker-nodejs-server:latest
 
   postgres:
     image: postgres:alpine
