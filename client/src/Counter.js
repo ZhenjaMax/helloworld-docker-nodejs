@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-require('dotenv').config();
 
 const serverBaseURL = process.env.REACT_APP_SERVER_API_URL + process.env.REACT_APP_SERVER_PORT;
 

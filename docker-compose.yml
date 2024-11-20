@@ -6,7 +6,6 @@ services:
     ports:
       - "${CLIENT_PORT_EXTERNAL}:${CLIENT_PORT}"
     environment:
-      - CLIENT_PORT=${CLIENT_PORT}
       - REACT_APP_SERVER_API_URL=${SERVER_API_URL}
       - REACT_APP_SERVER_API_PORT=${SERVER_PORT}
 
