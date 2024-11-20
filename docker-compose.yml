@@ -3,11 +3,12 @@ services:
   client:
     build:
       context: ./client
+      args:
+        # Вместо ENV, потому что статическая сборка
+        REACT_APP_SERVER_API_URL: ${SERVER_API_URL}
+        REACT_APP_SERVER_API_PORT: ${SERVER_PORT}
     ports:
       - "${CLIENT_PORT_EXTERNAL}:${CLIENT_PORT}"
-    environment:
-      - REACT_APP_SERVER_API_URL=${SERVER_API_URL}
-      - REACT_APP_SERVER_API_PORT=${SERVER_PORT}
     image: 2513009079942350/helloworld-docker-nodejs-client:latest
 
   server:
