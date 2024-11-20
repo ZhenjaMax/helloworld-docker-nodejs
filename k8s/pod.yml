@@ -58,11 +58,11 @@ spec:
           configMapKeyRef:
             name: 0303-maksimov-evgenii-configmap
             key: POSTGRES_DB
-      - name: DATABASE_PASSWORD
+      - name: POSTGRES_PASSWORD
         valueFrom:
           secretKeyRef:
             name: 0303-maksimov-evgenii-secret
-            key: DATABASE_PASSWORD
+            key: POSTGRES_PASSWORD
       - name: POSTGRES_PORT
         valueFrom:
           configMapKeyRef:
@@ -91,11 +91,11 @@ spec:
           configMapKeyRef:
             name: 0303-maksimov-evgenii-configmap
             key: POSTGRES_USER
-      - name: DATABASE_PASSWORD
+      - name: POSTGRES_PASSWORD
         valueFrom:
           secretKeyRef:
             name: 0303-maksimov-evgenii-secret
-            key: DATABASE_PASSWORD
+            key: POSTGRES_PASSWORD
       - name: POSTGRES_DB
         valueFrom:
           configMapKeyRef:
