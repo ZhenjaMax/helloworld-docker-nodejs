@@ -16,6 +16,7 @@
 - Подключиться к клиенту: http://localhost:3000
 
 ## Развёртывание приложения в K8s
-- ConfigMap
-- Secret
-- Pod
+- ConfigMap;
+- Secret;
+- Pod;
+- Service (для клиента, доступ извне).

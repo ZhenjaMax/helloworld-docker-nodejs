@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: 0303-maksimov-evgenii-service-client
+  namespace: 0303-maksimov-evgenii
+spec:
+  type: NodePort  # Доступ извне
+  selector:
+    app: maksimov-helloworld-k8s
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 80
