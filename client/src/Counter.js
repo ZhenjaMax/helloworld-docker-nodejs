@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const serverBaseURL = `${process.env.REACT_APP_SERVER_API_URL}:${process.env.REACT_APP_SERVER_API_PORT}`;
+// Почему undefined?
+const serverAPI = process.env.REACT_APP_SERVER_API_URL || "http://localhost";
+const serverPort = process.env.REACT_APP_SERVER_API_PORT || 5000;
+const serverBaseURL = `${serverAPI}:${serverPort}`;
 
 const Counter = () => {
     const [count, setCount] = useState(0);
 
-    console.log('API URL:', process.env.REACT_APP_SERVER_API_URL);
-    console.log('API Port:', process.env.REACT_APP_SERVER_API_PORT);
-    console.log('Server Base URL:', serverBaseURL);
 
     useEffect(() => {
         const fetchCounter = async () => {
