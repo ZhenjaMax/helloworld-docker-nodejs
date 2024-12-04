@@ -1,4 +1,4 @@
-FROM node:20-slim AS build
+FROM node:20-alpine AS build
 WORKDIR /helloworld-docker-nodejs-client
 # Так быстрее, вместо установки может взять из кэша
 COPY package*.json ./
@@ -8,9 +8,9 @@ COPY . .
 # ARG и ENV нужны для импорта переменных окружения,
 # потому что производится статическая сборка фронтенда
 ARG REACT_APP_SERVER_API_URL
-ENV REACT_APP_SERVER_API_URL $REACT_APP_SERVER_API_URL
+ENV REACT_APP_SERVER_API_URL=$REACT_APP_SERVER_API_URL
 ARG REACT_APP_SERVER_API_PORT
-ENV REACT_APP_SERVER_API_PORT $REACT_APP_SERVER_API_PORT
+ENV REACT_APP_SERVER_API_PORT=$REACT_APP_SERVER_API_PORT
 RUN npm run build
 
 # Многоступенчатая сборка
