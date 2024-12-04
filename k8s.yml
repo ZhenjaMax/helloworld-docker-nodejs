@@ -1,3 +1,9 @@
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: 0303-maksimov-evgenii
+---
 # ConfigMap
 apiVersion: v1
 kind: ConfigMap
@@ -5,7 +11,7 @@ metadata:
   name: hw-configmap
   namespace: 0303-maksimov-evgenii
 data:
-  REACT_APP_SERVER_API_URL: http://127.0.0.1
+  REACT_APP_SERVER_API_URL: hw-postgres-service
   REACT_APP_SERVER_API_PORT: "5000"
   POSTGRES_USER: user
   POSTGRES_HOST: postgres
@@ -38,7 +44,7 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: 3000
-  type: LoadBalancer
+  type: LoadBalancer  # Можно???
 ---
 # Client Deployment
 apiVersion: apps/v1
@@ -63,9 +69,9 @@ spec:
             - containerPort: 3000
           resources:
             requests:
-              memory: "100Mi"
-            limits:
               memory: "200Mi"
+            limits:
+              memory: "400Mi"
           env:
             - name: REACT_APP_SERVER_API_URL
               valueFrom:
@@ -117,9 +123,9 @@ spec:
             - containerPort: 5000
           resources:
             requests:
-              memory: "150Mi"
-            limits:
               memory: "200Mi"
+            limits:
+              memory: "400Mi"
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -191,9 +197,9 @@ spec:
             - containerPort: 5432
           resources:
             requests:
-              memory: "150Mi"
+              memory: "250Mi"
             limits:
-              memory: "200Mi"
+              memory: "500Mi"
           env:
             - name: POSTGRES_USER
               valueFrom:
