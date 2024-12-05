@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const serverAPI = process.env.REACT_APP_SERVER_API_URL || "http://localhost";
-const serverPort = process.env.REACT_APP_SERVER_API_PORT || 5000;
+const serverAPI = process.env.REACT_APP_SERVER_API_URL;
+const serverPort = process.env.REACT_APP_SERVER_API_PORT;
 const serverBaseURL = `${serverAPI}:${serverPort}`;
 
 const Counter = () => {
