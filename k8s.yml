@@ -172,7 +172,7 @@ spec:
     - protocol: TCP
       port: 5432
       targetPort: 5432
-  type: ClusterIP
+  clusterIP: None  # Headless service
 ---
 # DB Persistent volume
 apiVersion: v1
@@ -188,21 +188,22 @@ spec:
     requests:
       storage: 1Gi
 ---
-# DB Deployment
+# DB StatefulSet
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: hw-postgres-deployment
+  name: hw-postgres-statefulset
   namespace: 0303-maksimov-evgenii
 spec:
+  serviceName: hw-postgres-service # DBService.metadata.name
   replicas: 1
   selector:
     matchLabels:
-      app: hw-postgres  # DBDeployment.spec.selector.app
+      app: hw-postgres
   template:
     metadata:
       labels:
-        app: hw-postgres  # DBDeployment.spec.selector.app
+        app: hw-postgres
     spec:
       containers:
         - name: hw-postgres-container
@@ -232,8 +233,12 @@ spec:
                   key: POSTGRES_DB
           volumeMounts:
             - name: postgres-data
-              mountPath: /var/lib/postgresql/data # PostgreSQL stored data path
-      volumes:
-        - name: postgres-data
-          persistentVolumeClaim:
-            claimName: postgres-pvc # DBPersistentVolume.metadata.name
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
