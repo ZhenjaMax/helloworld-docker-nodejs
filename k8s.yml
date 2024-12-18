@@ -165,6 +165,7 @@ metadata:
   name: hw-postgres-service
   namespace: 0303-maksimov-evgenii
 spec:
+  clusterIP: None     # Headless service for StatefulSet
   selector:
     app: hw-postgres  # DBDeployment.spec.selector.matchLabels.app, 
                       # DBDeployment.spec.template.metadata.labels.app
@@ -172,7 +173,6 @@ spec:
     - protocol: TCP
       port: 5432
       targetPort: 5432
-  clusterIP: None  # Headless service
 ---
 # DB Persistent volume
 apiVersion: v1
@@ -238,7 +238,9 @@ spec:
     - metadata:
         name: postgres-data
       spec:
-        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        accessModes:
+          - ReadWriteOnce
         resources:
           requests:
             storage: 1Gi
