@@ -1,9 +1,9 @@
-# Namespace (почему не работает?)
-# apiVersion: v1
-# kind: Namespace
-# metadata:
-#   name: 0303-maksimov-evgenii
-# ---
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: 0303-maksimov-evgenii
+---
 # ConfigMap
 apiVersion: v1
 kind: ConfigMap
@@ -29,8 +29,8 @@ metadata:
 type: Opaque
 data:
   POSTGRES_PASSWORD: MTIzNDU2 # 123456 (Base64)
-# Client Service
 ---
+# Client Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -167,8 +167,7 @@ metadata:
 spec:
   clusterIP: None     # Headless service for StatefulSet
   selector:
-    app: hw-postgres  # DBDeployment.spec.selector.matchLabels.app, 
-                      # DBDeployment.spec.template.metadata.labels.app
+    app: hw-postgres  # DBStatefulSet.spec.template.metadata.labels.app
   ports:
     - protocol: TCP
       port: 5432
@@ -178,7 +177,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pvc  # DBDeployment.spec.template.spec.volumes.claimName
+  name: postgres-pvc
   namespace: 0303-maksimov-evgenii
 spec:
   storageClassName: local-path
